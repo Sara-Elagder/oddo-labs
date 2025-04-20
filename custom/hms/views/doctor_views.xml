@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <!-- List view first -->
+        <record id="view_doctor_list" model="ir.ui.view">
+            <field name="name">hms.doctor.list</field>
+            <field name="model">hms.doctor</field>
+            <field name="arch" type="xml">
+                <list string="Doctor List">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                </list>
+            </field>
+        </record>
+        <!-- Form view second -->
+        <record id="view_doctor_form" model="ir.ui.view">
+            <field name="name">hms.doctor.form</field>
+            <field name="model">hms.doctor</field>
+            <field name="arch" type="xml">
+                <form string="Doctor Details">
+                    <sheet>
+                        <group>
+                            <field name="patient_ids" widget="many2many_tags"/>
+                            <field name="image" widget="image"/>
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Action last -->
+        <record id="action_doctor" model="ir.actions.act_window">
+            <field name="name">Doctor Records</field>
+            <field name="res_model">hms.doctor</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="hms_root_menu" name="HMS"/>
+        <menuitem id="doctor_menu" name="Doctors" parent="hms_root_menu" action="action_doctor"/>
+    </data>
+</odoo>

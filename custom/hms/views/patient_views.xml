@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <!-- List view first -->
+        <record id="view_patient_list" model="ir.ui.view">
+            <field name="name">hms.patient.list</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <list string="Patient List">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="state"/>
+                    <field name="department_id"/>
+                    <field name="blood_type"/>
+                    <field name="age"/>
+                </list>
+            </field>
+        </record>
+        <!-- Form view second -->
+        <record id="view_patient_form" model="ir.ui.view">
+            <field name="name">hms.patient.form</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient Details">
+                    <header>
+                        <button name="set_good" string="Set Good" type="object" class="oe_highlight" invisible="state == 'good'"/>
+                        <button name="set_fair" string="Set Fair" type="object" class="oe_highlight" invisible="state == 'fair'"/>
+                        <button name="set_serious" string="Set Serious" type="object" class="oe_highlight" invisible="state == 'serious'"/>
+                        <button name="set_undetermined" string="Reset" type="object" invisible="state == 'undetermined'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <!-- Custom layout for patient details -->
+                        <notebook>
+                            <page string="Main Info">
+                                <group>
+                                    <field name="last_name" required="1"/>
+                                    <field name="first_name" required="1"/>
+                                    <field name="email"/>
+                                    <field name="birth_date"/>
+                                    <field name="age"/>
+                                </group>
+                                <group>
+                                    <field name="department_id"/>
+                                    <field name="department_capacity" readonly="1"/>
+                                    <field name="doctor_ids" widget="many2many_tags" readonly="not department_id"/>
+                                </group>
+                                <group>
+                                    <field name="blood_type"/>
+                                    <field name="pcr" required="pcr"/>
+                                    <field name="cr_ratio"/>
+                                </group>
+                                <group>
+                                    <field name="address"/>
+                                    <field name="image"/>
+                                    <field name="history" invisible="age &lt; 50"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Action last -->
+        <record id="action_patient" model="ir.actions.act_window">
+            <field name="name">Patient Records</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="hms_root_menu" name="HMS"/>
+        <menuitem id="patient_menu" name="Patients" parent="hms_root_menu" action="action_patient"/>
+    </data>
+</odoo>
